@@ -180,6 +180,7 @@ local function call_picker(list_opts, command, prompt_title_supplement, user_opt
                 actions_set.select:replace(function(_, type)
                     local entry = actions_state.get_selected_entry()
                     local dir = from_entry.path(entry)
+                    actions._close(prompt_bufnr, false)
                     vim.fn.execute("cd " .. dir)
                 end)
                 return true
