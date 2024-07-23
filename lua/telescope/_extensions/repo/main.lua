@@ -180,29 +180,7 @@ local function call_picker(list_opts, command, prompt_title_supplement, user_opt
                 actions_set.select:replace(function(_, type)
                     local entry = actions_state.get_selected_entry()
                     local dir = from_entry.path(entry)
-                    if autocmd_lcd.active and type ~= "" then
-                        autocmd_lcd.add_project(dir)
-                    end
-
-                    if type == "default" then
-                        actions._close(prompt_bufnr, false)
-                        vim.schedule(function()
-                            project_files(vim.tbl_extend("force", user_opts, { cwd = dir }))
-                        end)
-                    end
-                    if type == "vertical" then
-                        actions._close(prompt_bufnr, false)
-                        vim.schedule(function()
-                            project_live_grep(vim.tbl_extend("force", list_opts, { cwd = dir }))
-                        end)
-                        return
-                    end
-                    if type == "tab" then
-                        vim.cmd("tabe " .. dir)
-                        vim.cmd("tcd " .. dir)
-                        project_files(vim.tbl_extend("force", list_opts, { cwd = dir }))
-                        return
-                    end
+                    vim.fn.execute("cd " .. dir)
                 end)
                 return true
             end,
